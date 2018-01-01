@@ -4,7 +4,9 @@
     "name": "Joshua Scarsbrook",
     "email": "jscarsbrook@gmail.com"
   },
-  "dependencies": {},
+  "dependencies": {
+    "remap-istanbul": "^0.9.5"
+  },
   "devDependencies": {
     "@types/jest": "^22.0.0",
     "@types/node": "^8.5.1",
@@ -24,7 +26,8 @@
     "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run check",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage && mv coverage/coverage-final.json coverage/coverage.json && remap-istanbul -i coverage/coverage.json -o coverage/coverage.json && istanbul report lcov text"
   },
   "jest": {
     "transform": {

@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/Service.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> Service.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.67% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>64/73</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>24/30</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.24% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>15/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>63/72</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// tslint:disable:no-any
+&nbsp;
+import * as crypto from 'crypto';
+&nbsp;
+import {Bag} from './common';
+import {Datastore} from './Datastore';
+&nbsp;
+const TOKEN_PREFIX = 'TKN';
+const ACTION_PREFIX = 'ACT';
+&nbsp;
+/**
+ * Create a random UUID.
+ * @param prefix A string to prefix the resulting ID with. This is meant to be
+ * used to identify the type of Identifier.
+ */
+function makeUUID(prefix: string) {
+  const randomId = crypto.randomBytes(8).toString('hex');
+  return makeID(prefix, randomId);
+}
+&nbsp;
+function makeID(prefix: string, value: string) {
+  return `${prefix}:${value}`;
+}
+&nbsp;
+export type SessionID = string;
+&nbsp;
+export type ActionID = string;
+&nbsp;
+export type ActionTarget = InternalServiceAction;
+&nbsp;
+export interface ServiceRequest {
+  sessionID: SessionID|undefined;
+  actionID: ActionID;
+  actionParams: any;
+}
+&nbsp;
+export interface ServiceAction { actionID: ActionID; }
+&nbsp;
+export interface ServiceResponse {
+  success: boolean;
+  actions: ServiceAction[];
+  data: ServiceResponseData;
+}
+&nbsp;
+export interface ServiceResponseData {}
+&nbsp;
+export interface ServiceErrorData extends ServiceResponseData {
+  message: string;
+}
+&nbsp;
+export interface SessionCreateData extends ServiceResponseData {
+  sessionID: SessionID;
+}
+&nbsp;
+export interface ServicePingData extends ServiceResponseData {
+  validLogin: boolean;
+}
+&nbsp;
+export enum InternalServiceAction {
+  CreateSession = 'SVC:0',
+  Ping = 'SVC:1',
+  Pong = 'SVC:2'
+}
+&nbsp;
+export interface ClientValue&lt;T&gt; {
+  magic: 'CLIENT';
+  value: T;
+}
+&nbsp;
+export interface ActionInfo {
+  persist: boolean;
+  shouldValidate: boolean;
+  target: ActionTarget;
+  params: any;
+}
+&nbsp;
+export type ActionCallback = (resp: ServiceResponse) =&gt; void;
+&nbsp;
+export interface ActionService {
+  handleEvent(service: Service, params: ClientValue&lt;any&gt;, cb: ActionCallback):
+      void;
+}
+&nbsp;
+/**
+ * Base class representing a running service. Provides a set of RPC endpoints
+ * and methods for allocating RPC calls to users.
+ *
+ * The main difference with this system is it facilitates highly stateful RPC
+ * calls by allocating RPCs to users. Rather then discovering the complete list
+ * of methods the server provides the client with a list of RPC methods they can
+ * call at a given time which can then then be executed by replying to the
+ * server.
+ */
+export class Service {
+  // TODO(jscarsbrook): Add Storage+Session
+&nbsp;
+  // TODO(jscarsbrook): Move all of this into a persistent data store.
+  private dataStore: Datastore;
+&nbsp;
+  private actionMap: Map&lt;ActionID, ActionInfo&gt; = new Map();
+&nbsp;
+  private actionHandlers: Map&lt;ActionID, ActionService&gt; = new Map();
+&nbsp;
+  private validSessions: Map&lt;SessionID, boolean&gt; = new Map();
+&nbsp;
+  private createSessionAction: ActionID;
+&nbsp;
+  private pingAction: ActionID;
+&nbsp;
+  constructor() {
+    this.dataStore = new Datastore();
+&nbsp;
+    this.createSessionAction = this.registerActionWithType(
+        InternalServiceAction.CreateSession, null, true, true);
+&nbsp;
+    this.pingAction = this.registerActionWithType(
+        InternalServiceAction.Ping, null, true, true);
+  }
+&nbsp;
+  getCreateSessionAction(): ActionID {
+    return this.createSessionAction;
+  }
+&nbsp;
+  getPingAction(): ActionID {
+    return this.pingAction;
+  }
+&nbsp;
+  createServiceAction(
+      action: InternalServiceAction, persist?: boolean,
+      insecure?: boolean): ServiceAction {
+    return {
+      actionID: this.registerActionWithType(action, null, persist, insecure)
+    };
+  }
+&nbsp;
+  registerActionWithType(
+      action: ActionTarget, params: any, persist?: boolean,
+      insecure?: boolean): ActionID {
+    const newId = makeUUID(ACTION_PREFIX);
+&nbsp;
+    this.actionMap.set(newId, {
+      persist: persist || false,
+      shouldValidate: !(insecure || false),
+      target: action,
+      params
+    });
+&nbsp;
+    return newId;
+  }
+&nbsp;
+  post(request: ServiceRequest): ServiceResponse {
+    return this.handleAction(request);
+  }
+&nbsp;
+  request&lt;T&gt;(actionID: ActionID, actionParams: T, sessionID?: SessionID):
+      ServiceResponse {
+    return this.handleAction({actionID, actionParams, sessionID});
+  }
+&nbsp;
+  createError(msg: string): ServiceResponse {
+    return {
+      success: false,
+      data: {
+        message: msg,
+      } as ServiceErrorData,
+      actions: []
+    };
+  }
+&nbsp;
+  handleAction(request: ServiceRequest): ServiceResponse {
+    if (!request.actionID) {
+      return this.createError('Bad Request');
+    }
+&nbsp;
+    const params = this.flagClient(request.actionParams);
+    const action = this.actionMap.get(request.actionID);
+&nbsp;
+    if (!action) {
+      return this.createError('Bad Request');
+    }
+&nbsp;
+    const validated = this.validateRequest(request, action);
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (action.shouldValidate &amp;&amp; !validated) {
+<span class="cstat-no" title="statement not covered" >      return this.createError('Unauthorized');</span>
+    }
+&nbsp;
+    // Request is now authorized.
+&nbsp;
+    if (!action.persist) {
+      this.actionMap.delete(request.actionID);
+    }
+&nbsp;
+    if (action.target === InternalServiceAction.CreateSession) {
+      const newSessionId = makeUUID(TOKEN_PREFIX);
+&nbsp;
+      this.validSessions.set(newSessionId, true);
+&nbsp;
+      return {
+        success: true,
+        data: {sessionID: newSessionId} as SessionCreateData,
+        // TODO(jscarsbrook): Execute service entry point.
+        actions: []
+      };
+    } else if (action.target === InternalServiceAction.Ping) {
+      const actions: ServiceAction[] = [];
+      if (validated) {
+        actions.push(
+            this.createServiceAction(InternalServiceAction.Pong, false, false));
+      }
+      return {
+        success: true,
+        data: {validLogin: validated} as ServicePingData,
+        actions
+      };
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (action.target === InternalServiceAction.Pong) {
+      return {
+        success: true,
+        data: {validLogin: validated} as ServicePingData,
+        actions: []
+      };
+    } else {
+<span class="cstat-no" title="statement not covered" >      return this.createError('Action not Implemented');</span>
+    }
+  }
+&nbsp;
+  // Security
+&nbsp;
+  // TODO(jscarsbrook): Fix this. Right now the best approach is to unbox the
+  // whole object. I might make it impossible to unbox the whole thing.
+&nbsp;
+  flagClient&lt;T&gt;(value: T): ClientValue&lt;T&gt; {
+    return {magic: 'CLIENT', value};
+  }
+&nbsp;
+  getObjectValue&lt;Value&gt;(obj: ClientValue&lt;Bag&lt;Value&gt;&gt;, key: string, def: Value<span class="fstat-no" title="function not covered" >):</span>
+      ClientValue&lt;Value&gt; {
+    const unBoxedValue = <span class="cstat-no" title="statement not covered" >this.unboxClient(obj) as any;</span>
+<span class="cstat-no" title="statement not covered" >    if (!unBoxedValue.hasOwnProperty(key)) {</span>
+<span class="cstat-no" title="statement not covered" >      return this.flagClient(def);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      return this.flagClient(unBoxedValue[key]);</span>
+    }
+  }
+&nbsp;
+  unboxClient&lt;T&gt;(value: ClientValue&lt;T&gt;<span class="fstat-no" title="function not covered" >): T {</span>
+<span class="cstat-no" title="statement not covered" >    if (value.magic !== 'CLIENT') {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Corrupt Client Value');</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return value.value;</span>
+  }
+&nbsp;
+  validateRequest(request: ServiceRequest, action: ActionInfo): boolean {
+    return request.sessionID !== undefined &amp;&amp;
+        this.validSessions.has(request.sessionID);
+  }
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jan 01 2018 22:01:38 GMT+1300 (NZDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
