@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "alwaysStrict": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "outDir": "out",
+        "experimentalDecorators": true,
+        "target": "es2015",
+        "module": "commonjs",
+        "sourceMap": true,
+        "plugins": [
+            {
+                "name": "tslint-language-service"
+            }
+        ]
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}
