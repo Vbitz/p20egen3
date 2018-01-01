@@ -36,13 +36,13 @@ export interface ServiceRequest {
 
 export interface ServiceAction { actionID: ActionID; }
 
-export interface ServiceResponse {
+export interface ServiceResponse<Data extends ServiceResponseData> {
   success: boolean;
   actions: ServiceAction[];
-  data: ServiceResponseData;
+  data: Data;
 }
 
-export interface ServiceResponseData {}
+export interface ServiceResponseData { message?: string; }
 
 export interface ServiceErrorData extends ServiceResponseData {
   message: string;
@@ -74,7 +74,8 @@ export interface ActionInfo {
   params: any;
 }
 
-export type ActionCallback = (resp: ServiceResponse) => void;
+export type ActionCallback = (resp: ServiceResponse<ServiceResponseData>) =>
+    void;
 
 export interface ActionService {
   handleEvent(service: Service, params: ClientValue<any>, cb: ActionCallback):
@@ -148,16 +149,18 @@ export class Service {
     return newId;
   }
 
-  post(request: ServiceRequest): ServiceResponse {
+  post<Data extends ServiceResponseData>(request: ServiceRequest):
+      ServiceResponse<Data> {
     return this.handleAction(request);
   }
 
-  request<T>(actionID: ActionID, actionParams: T, sessionID?: SessionID):
-      ServiceResponse {
+  request<Data extends ServiceResponseData, Params>(
+      actionID: ActionID, actionParams: Params,
+      sessionID?: SessionID): ServiceResponse<Data> {
     return this.handleAction({actionID, actionParams, sessionID});
   }
 
-  createError(msg: string): ServiceResponse {
+  createError(msg: string): ServiceResponse<ServiceErrorData> {
     return {
       success: false,
       data: {
@@ -167,22 +170,23 @@ export class Service {
     };
   }
 
-  handleAction(request: ServiceRequest): ServiceResponse {
+  handleAction<Data extends ServiceResponseData>(request: ServiceRequest):
+      ServiceResponse<Data> {
     if (!request.actionID) {
-      return this.createError('Bad Request');
+      return this.createError('Bad Request') as ServiceResponse<Data>;
     }
 
     const params = this.flagClient(request.actionParams);
     const action = this.actionMap.get(request.actionID);
 
     if (!action) {
-      return this.createError('Bad Request');
+      return this.createError('Bad Request') as ServiceResponse<Data>;
     }
 
     const validated = this.validateRequest(request, action);
 
     if (action.shouldValidate && !validated) {
-      return this.createError('Unauthorized');
+      return this.createError('Unauthorized') as ServiceResponse<Data>;
     }
 
     // Request is now authorized.
@@ -201,7 +205,7 @@ export class Service {
         data: {sessionID: newSessionId} as SessionCreateData,
         // TODO(jscarsbrook): Execute service entry point.
         actions: []
-      };
+      } as ServiceResponse<any>;
     } else if (action.target === InternalServiceAction.Ping) {
       const actions: ServiceAction[] = [];
       if (validated) {
@@ -212,15 +216,16 @@ export class Service {
         success: true,
         data: {validLogin: validated} as ServicePingData,
         actions
-      };
+      } as ServiceResponse<any>;
     } else if (action.target === InternalServiceAction.Pong) {
       return {
         success: true,
         data: {validLogin: validated} as ServicePingData,
         actions: []
-      };
+      } as ServiceResponse<any>;
     } else {
-      return this.createError('Action not Implemented');
+      return this.createError('Action not Implemented') as
+          ServiceResponse<Data>;
     }
   }
 

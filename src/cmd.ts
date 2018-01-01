@@ -1,17 +1,14 @@
 import * as readline from 'readline';
 import * as util from 'util';
 
-import {InternalServiceAction, Service, SessionCreateData} from './Service';
+import {InternalServiceAction, Service, ServicePingData, SessionCreateData} from './Service';
 
 async function main(args: string[]): Promise<never> {
   // Simulate access to back end service with an instance of Service.
   const service = new Service();
 
-  const sessionRequest = service.post({
-    actionID: service.getCreateSessionAction(),
-    actionParams: null,
-    sessionID: undefined,
-  });
+  const sessionRequest = service.request<SessionCreateData, null>(
+      service.getCreateSessionAction(), null, undefined);
 
   if (!sessionRequest.success) {
     throw new Error('Could not create session');
@@ -19,7 +16,7 @@ async function main(args: string[]): Promise<never> {
 
   const rlInstance = readline.createInterface(process.stdin, process.stdout);
 
-  const sessionID = (sessionRequest.data as SessionCreateData).sessionID;
+  const sessionID = sessionRequest.data.sessionID;
 
   console.log('Created Session with ID: ' + sessionID);
 
@@ -40,10 +37,11 @@ async function main(args: string[]): Promise<never> {
     if (answer === 'exit') {
       running = false;
     } else if (answer === 'ping') {
-      const response = service.post(
-          {actionID: service.getPingAction(), actionParams: null, sessionID});
+      const response = service.request<ServicePingData, null>(
+          service.getPingAction(), null, sessionID);
       if (response.success) {
-        console.log('pong');
+        console.log(
+            'pong', response.data.validLogin ? 'valid login' : 'invalid login');
       } else {
         console.error('ping failed', response);
       }
