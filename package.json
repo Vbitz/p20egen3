@@ -6,11 +6,14 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^22.0.0",
     "@types/node": "^8.5.1",
+    "gts": "^0.5.2",
+    "jest": "^22.0.4",
+    "ts-jest": "^22.0.0",
     "tslint": "^5.8.0",
     "tslint-language-service": "^0.9.7",
-    "typescript": "^2.6.2",
-    "gts": "^0.5.2"
+    "typescript": "^2.6.2"
   },
   "license": "Apache-2.0",
   "scripts": {
@@ -20,6 +23,24 @@
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run check"
+    "posttest": "npm run check",
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "roots": [
+      "src/"
+    ]
   }
 }

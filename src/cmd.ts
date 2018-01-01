@@ -39,6 +39,14 @@ async function main(args: string[]): Promise<never> {
     const answer = await question('> ');
     if (answer === 'exit') {
       running = false;
+    } else if (answer === 'ping') {
+      const response = service.post(
+          {actionID: service.getPingAction(), actionParams: null, sessionID});
+      if (response.success) {
+        console.log('pong');
+      } else {
+        console.error('ping failed', response);
+      }
     } else {
       console.error('Command not found:', answer);
     }
