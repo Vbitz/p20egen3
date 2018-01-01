@@ -233,9 +233,9 @@ export class Service {
     return {magic: 'CLIENT', value};
   }
 
-  getObjectValue<Value>(obj: ClientValue<Bag<Value>>, key: string, def: Value):
-      ClientValue<Value> {
-    const unBoxedValue = this.unboxClient(obj) as any;
+  getObjectValue<Obj, Key extends keyof Obj, Value>(
+      obj: ClientValue<Obj>, key: Key, def: Obj[Key]): ClientValue<Obj[Key]> {
+    const unBoxedValue = this.unboxClient(obj);
     if (!unBoxedValue.hasOwnProperty(key)) {
       return this.flagClient(def);
     } else {
@@ -252,6 +252,8 @@ export class Service {
   }
 
   validateRequest(request: ServiceRequest, action: ActionInfo): boolean {
+    // Check to make sure the session exists and has an entry in the valid
+    // session map.
     return request.sessionID !== undefined &&
         this.validSessions.has(request.sessionID);
   }
