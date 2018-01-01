@@ -5,21 +5,15 @@ import * as crypto from 'crypto';
 import {Bag} from './common';
 import {Datastore} from './Datastore';
 
-const TOKEN_PREFIX = 'TKN';
-const ACTION_PREFIX = 'ACT';
+const TOKEN_NS = 'TKN';
+const ACTION_NS = 'ACT';
 
 /**
  * Create a random UUID.
- * @param prefix A string to prefix the resulting ID with. This is meant to be
- * used to identify the type of Identifier.
  */
-function makeUUID(prefix: string) {
+function makeUUID() {
   const randomId = crypto.randomBytes(8).toString('hex');
-  return makeID(prefix, randomId);
-}
-
-function makeID(prefix: string, value: string) {
-  return `${prefix}:${value}`;
+  return randomId;
 }
 
 export type SessionID = string;
@@ -96,20 +90,14 @@ export class Service {
   // TODO(jscarsbrook): Add Storage+Session
 
   // TODO(jscarsbrook): Move all of this into a persistent data store.
-  private dataStore: Datastore;
-
-  private actionMap: Map<ActionID, ActionInfo> = new Map();
-
-  private actionHandlers: Map<ActionID, ActionService> = new Map();
-
-  private validSessions: Map<SessionID, boolean> = new Map();
+  private datastore: Datastore;
 
   private createSessionAction: ActionID;
 
   private pingAction: ActionID;
 
   constructor() {
-    this.dataStore = new Datastore();
+    this.datastore = new Datastore();
 
     this.createSessionAction = this.registerActionWithType(
         InternalServiceAction.CreateSession, null, true, true);
@@ -137,9 +125,9 @@ export class Service {
   registerActionWithType(
       action: ActionTarget, params: any, persist?: boolean,
       insecure?: boolean): ActionID {
-    const newId = makeUUID(ACTION_PREFIX);
+    const newId = makeUUID();
 
-    this.actionMap.set(newId, {
+    this.datastore.put(ACTION_NS, newId, {
       persist: persist || false,
       shouldValidate: !(insecure || false),
       target: action,
@@ -177,7 +165,8 @@ export class Service {
     }
 
     const params = this.flagClient(request.actionParams);
-    const action = this.actionMap.get(request.actionID);
+    const action =
+        this.datastore.get<ActionInfo|null>(ACTION_NS, request.actionID, null);
 
     if (!action) {
       return this.createError('Bad Request') as ServiceResponse<Data>;
@@ -192,13 +181,13 @@ export class Service {
     // Request is now authorized.
 
     if (!action.persist) {
-      this.actionMap.delete(request.actionID);
+      this.datastore.delete(ACTION_NS, request.actionID);
     }
 
     if (action.target === InternalServiceAction.CreateSession) {
-      const newSessionId = makeUUID(TOKEN_PREFIX);
+      const newSessionId = makeUUID();
 
-      this.validSessions.set(newSessionId, true);
+      this.datastore.put(TOKEN_NS, newSessionId, true);
 
       return {
         success: true,
@@ -260,6 +249,6 @@ export class Service {
     // Check to make sure the session exists and has an entry in the valid
     // session map.
     return request.sessionID !== undefined &&
-        this.validSessions.has(request.sessionID);
+        this.datastore.has(TOKEN_NS, request.sessionID);
   }
 }

@@ -5,11 +5,13 @@ import {Bag} from './common';
 export class Datastore {
   private data: Map<string, any> = new Map();
 
-  put<T>(key: string, value: T) {
+  put<T>(ns: string, id: string, value: T) {
+    const key = this.makeKey(ns, id);
     this.data.set(key, value);
   }
 
-  get<T>(key: string, defaultValue: T): T {
+  get<T>(ns: string, id: string, defaultValue: T): T {
+    const key = this.makeKey(ns, id);
     if (this.data.has(key)) {
       return this.data.get(key);
     } else {
@@ -17,13 +19,19 @@ export class Datastore {
     }
   }
 
-  has(key: string) {
+  has(ns: string, id: string) {
+    const key = this.makeKey(ns, id);
     return this.data.has(key);
   }
 
-  delete(key: string) {
+  delete(ns: string, id: string) {
+    const key = this.makeKey(ns, id);
     if (this.data.has(key)) {
       this.data.delete(key);
     }
+  }
+
+  private makeKey(ns: string, id: string) {
+    return `${ns}:${id}`;
   }
 }
