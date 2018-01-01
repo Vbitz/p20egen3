@@ -7,7 +7,7 @@ async function main(args: string[]): Promise<never> {
   // Simulate access to back end service with an instance of Service.
   const service = new Service();
 
-  const sessionRequest = service.request<SessionCreateData, null>(
+  const sessionRequest = await service.request<SessionCreateData, null>(
       service.getCreateSessionAction(), null, undefined);
 
   if (!sessionRequest.success) {
@@ -37,11 +37,21 @@ async function main(args: string[]): Promise<never> {
     if (answer === 'exit') {
       running = false;
     } else if (answer === 'ping') {
-      const response = service.request<ServicePingData, null>(
+      const response = await service.request<ServicePingData, null>(
           service.getPingAction(), null, sessionID);
       if (response.success) {
         console.log(
-            'pong', response.data.validLogin ? 'valid login' : 'invalid login');
+            '#ping',
+            response.data.validLogin ? 'valid login' : 'invalid login');
+        const pongResponse = await service.request<ServicePingData, null>(
+            response.actions[0].actionID, null, sessionID);
+        if (pongResponse.success) {
+          console.log(
+              '#pong',
+              pongResponse.data.validLogin ? 'valid login' : 'invalid login');
+        } else {
+          console.error('pong failed', response);
+        }
       } else {
         console.error('ping failed', response);
       }

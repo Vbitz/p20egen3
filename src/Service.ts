@@ -7,6 +7,7 @@ import {Datastore} from './Datastore';
 
 const TOKEN_NS = 'TKN';
 const ACTION_NS = 'ACT';
+const ACTIONSERVICE_NS = 'SVC';
 
 /**
  * Create a random UUID.
@@ -20,7 +21,7 @@ export type SessionID = string;
 
 export type ActionID = string;
 
-export type ActionTarget = InternalServiceAction;
+export type ActionTarget = InternalServiceAction|ActionServiceId;
 
 export interface ServiceRequest {
   sessionID: SessionID|undefined;
@@ -68,12 +69,17 @@ export interface ActionInfo {
   params: any;
 }
 
-export type ActionCallback = (resp: ServiceResponse<ServiceResponseData>) =>
-    void;
-
 export interface ActionService {
-  handleEvent(service: Service, params: ClientValue<any>, cb: ActionCallback):
-      void;
+  handleEvent(service: Service, params: ClientValue<any>):
+      Promise<ServiceResponse<ServiceResponseData>>;
+
+  UUID: ActionServiceId;
+}
+
+export type ActionServiceId = string;
+
+function error(): never {
+  throw new Error('Not Implemented');
 }
 
 /**
@@ -87,10 +93,8 @@ export interface ActionService {
  * server.
  */
 export class Service {
-  // TODO(jscarsbrook): Add Storage+Session
-
-  // TODO(jscarsbrook): Move all of this into a persistent data store.
   private datastore: Datastore;
+  private serviceMap: Map<ActionServiceId, ActionService> = new Map();
 
   private createSessionAction: ActionID;
 
@@ -114,12 +118,25 @@ export class Service {
     return this.pingAction;
   }
 
-  createServiceAction(
+  createInternalAction(
       action: InternalServiceAction, persist?: boolean,
       insecure?: boolean): ServiceAction {
     return {
       actionID: this.registerActionWithType(action, null, persist, insecure)
     };
+  }
+
+  createServiceAction(
+      service: ActionServiceId, params: any, persist?: boolean,
+      insecure?: boolean): ServiceAction {
+    return {
+      actionID: this.registerActionWithType(service, null, persist, insecure)
+    };
+  }
+
+  registerActionService(service: ActionService): ActionServiceId {
+    this.serviceMap.set(service.UUID, service);
+    return service.UUID;
   }
 
   registerActionWithType(
@@ -138,13 +155,13 @@ export class Service {
   }
 
   post<Data extends ServiceResponseData>(request: ServiceRequest):
-      ServiceResponse<Data> {
+      Promise<ServiceResponse<Data>> {
     return this.handleAction(request);
   }
 
   request<Data extends ServiceResponseData, Params>(
       actionID: ActionID, actionParams: Params,
-      sessionID?: SessionID): ServiceResponse<Data> {
+      sessionID?: SessionID): Promise<ServiceResponse<Data>> {
     return this.handleAction({actionID, actionParams, sessionID});
   }
 
@@ -158,8 +175,8 @@ export class Service {
     };
   }
 
-  handleAction<Data extends ServiceResponseData>(request: ServiceRequest):
-      ServiceResponse<Data> {
+  async handleAction<Data extends ServiceResponseData>(request: ServiceRequest):
+      Promise<ServiceResponse<Data>> {
     if (!request.actionID) {
       return this.createError('Bad Request') as ServiceResponse<Data>;
     }
@@ -198,8 +215,8 @@ export class Service {
     } else if (action.target === InternalServiceAction.Ping) {
       const actions: ServiceAction[] = [];
       if (validated) {
-        actions.push(
-            this.createServiceAction(InternalServiceAction.Pong, false, false));
+        actions.push(this.createInternalAction(
+            InternalServiceAction.Pong, false, false));
       }
       return {
         success: true,
@@ -212,6 +229,9 @@ export class Service {
         data: {validLogin: validated} as ServicePingData,
         actions: []
       } as ServiceResponse<any>;
+    } else if (this.serviceMap.has(action.target)) {
+      return (this.serviceMap.get(action.target) || error())
+                 .handleEvent(this, params) as Promise<ServiceResponse<any>>;
     } else {
       return this.createError('Action not Implemented') as
           ServiceResponse<Data>;

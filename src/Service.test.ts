@@ -2,41 +2,42 @@ import 'jest';
 
 import {ActionID, Service, ServiceErrorData, ServicePingData, SessionCreateData} from './Service';
 
-it('should initialize correctly', () => {
+it('should initialize correctly', async () => {
   const service = new Service();
 
-  const response = service.request(service.getPingAction(), null, undefined);
+  const response =
+      await service.request(service.getPingAction(), null, undefined);
 
   expect(response.success).toBeTruthy();
 });
 
-it('should return an error if the action is not specified', () => {
+it('should return an error if the action is not specified', async () => {
   const service = new Service();
 
   // tslint:disable-next-line:no-any
-  const response = service.post({} as any);
+  const response = await service.post({} as any);
 
   expect(response.success).toBeFalsy();
 
   expect((response.data as ServiceErrorData).message).toEqual('Bad Request');
 });
 
-it('should return an error if the action is invalid', () => {
+it('should return an error if the action is invalid', async () => {
   const service = new Service();
 
-  const response = service.request('hello', null, undefined);
+  const response = await service.request('hello', null, undefined);
 
   expect(response.success).toBeFalsy();
 
   expect((response.data as ServiceErrorData).message).toEqual('Bad Request');
 });
 
-it('should successfully create a session', () => {
+it('should successfully create a session', async () => {
   const service = new Service();
 
   // Create a new Session
   const createResponse =
-      service.request(service.getCreateSessionAction(), null, undefined);
+      await service.request(service.getCreateSessionAction(), null, undefined);
 
   expect(createResponse.success).toBeTruthy();
 
@@ -46,7 +47,7 @@ it('should successfully create a session', () => {
 
   // Ping the service and make sure the session was created.
   const pingResponse =
-      service.request(service.getPingAction(), null, sessionID);
+      await service.request(service.getPingAction(), null, sessionID);
 
   expect(pingResponse.success).toBeTruthy();
 
@@ -57,17 +58,17 @@ it('should successfully create a session', () => {
   expect(pingResponse.actions).toHaveLength(1);
 
   const pongResponse =
-      service.request(pingResponse.actions[0].actionID, null, sessionID);
+      await service.request(pingResponse.actions[0].actionID, null, sessionID);
 
   expect(pongResponse.success).toBeTruthy();
 });
 
-it('should not validate invalid tokens', () => {
+it('should not validate invalid tokens', async () => {
   const service = new Service();
 
   // Ping the service and make sure the session was created.
   const pingResponse =
-      service.request(service.getPingAction(), null, 'badsession');
+      await service.request(service.getPingAction(), null, 'badsession');
 
   expect(pingResponse.success).toBeTruthy();
 
@@ -75,12 +76,12 @@ it('should not validate invalid tokens', () => {
   expect((pingResponse.data as ServicePingData).validLogin).toBeFalsy();
 });
 
-it('Should deny pong responses from bad sessions', () => {
+it('Should deny pong responses from bad sessions', async () => {
   const service = new Service();
 
   // Create a new Session
   const createResponse =
-      service.request(service.getCreateSessionAction(), null, undefined);
+      await service.request(service.getCreateSessionAction(), null, undefined);
 
   expect(createResponse.success).toBeTruthy();
 
@@ -90,7 +91,7 @@ it('Should deny pong responses from bad sessions', () => {
 
   // Ping the service and make sure the session was created.
   const pingResponse =
-      service.request(service.getPingAction(), null, sessionID);
+      await service.request(service.getPingAction(), null, sessionID);
 
   expect(pingResponse.success).toBeTruthy();
 

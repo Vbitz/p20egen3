@@ -1,4 +1,4 @@
-import {ActionCallback, ActionService, ClientValue, Service, ServiceRequest} from './Service';
+import {ActionService, ClientValue, Service, ServiceRequest, ServiceResponse, ServiceResponseData} from './Service';
 
 interface InterpreterServiceRequest {}
 
@@ -8,9 +8,11 @@ export class NodeInterpreter {}
 
 export class NodeInterpreterService extends NodeInterpreter implements
     ActionService {
-  handleEvent(service: Service, params: ClientValue<{}>, cb: ActionCallback):
-      void {
-    const requestParams =
-        service.unboxClient(params) as InterpreterServiceRequest;
+  UUID = 'p20egen3.NodeInterpreterService';
+
+  // tslint:disable-next-line:no-any
+  async handleEvent(service: Service, params: ClientValue<any>):
+      Promise<ServiceResponse<ServiceResponseData>> {
+    return {actions: [], data: {}, success: true};
   }
 }

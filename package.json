@@ -21,6 +21,7 @@
     "clean": "gts clean",
     "compile": "tsc -p .",
     "fix": "gts fix",
+    "cmd": "npm run compile && node build/src/cmd",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run check",
