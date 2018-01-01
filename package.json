@@ -1,14 +1,18 @@
 {
-  "dependencies": {
+  "name": "project20engine",
+  "author": {
+    "name": "Joshua Scarsbrook",
+    "email": "jscarsbrook@gmail.com"
+  },
+  "dependencies": {},
+  "devDependencies": {
     "@types/node": "^8.5.1",
     "tslint": "^5.8.0",
     "tslint-language-service": "^0.9.7",
-    "typescript": "^2.6.2"
+    "typescript": "^2.6.2",
+    "gts": "^0.5.2"
   },
-  "devDependencies": {
-    "gts": "^0.5.2",
-    "typescript": "^2.6.1"
-  },
+  "license": "Apache-2.0",
   "scripts": {
     "check": "gts check",
     "clean": "gts clean",
