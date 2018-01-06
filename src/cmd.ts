@@ -1,7 +1,7 @@
 import * as readline from 'readline';
 import * as util from 'util';
 
-import {InternalServiceAction, Service, ServicePingData, SessionCreateData} from './Service';
+import {InternalServiceAction, ServiceImpl as Service, ServicePingData, SessionCreateData} from './Service';
 
 async function main(args: string[]): Promise<never> {
   // Simulate access to back end service with an instance of Service.

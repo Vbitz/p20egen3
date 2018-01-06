@@ -1,6 +1,6 @@
 import 'jest';
 
-import {ActionService, ClientValue, Service, ServiceResponse, ServiceResponseData} from './Service';
+import {ActionService, ClientValue, ServiceImpl as Service, ServiceResponse, ServiceResponseData} from './Service';
 
 class TestService implements ActionService {
   UUID = 'p20egen3.TestService';

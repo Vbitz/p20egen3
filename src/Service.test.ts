@@ -1,6 +1,6 @@
 import 'jest';
 
-import {ActionID, Service, ServiceErrorData, ServicePingData, SessionCreateData} from './Service';
+import {ActionID, ServiceErrorData, ServiceImpl as Service, ServicePingData, SessionCreateData} from './Service';
 
 it('should initialize correctly', async () => {
   const service = new Service();

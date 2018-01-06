@@ -82,6 +82,15 @@ function error(): never {
   throw new Error('Not Implemented');
 }
 
+export interface Service {
+  getCreateSessionAction(): ActionID;
+
+  getPingAction(): ActionID;
+
+  post<Data extends ServiceResponseData>(request: ServiceRequest):
+      Promise<ServiceResponse<Data>>;
+}
+
 /**
  * Base class representing a running service. Provides a set of RPC endpoints
  * and methods for allocating RPC calls to users.
@@ -92,7 +101,7 @@ function error(): never {
  * call at a given time which can then then be executed by replying to the
  * server.
  */
-export class Service {
+export class ServiceImpl implements Service {
   private datastore: Datastore;
   private serviceMap: Map<ActionServiceId, ActionService> = new Map();
 
