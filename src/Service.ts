@@ -135,6 +135,9 @@ export class Service {
   }
 
   registerActionService(service: ActionService): ActionServiceId {
+    if (this.serviceMap.has(service.UUID)) {
+      throw new Error(`Service: ${service.UUID} is already registered`);
+    }
     this.serviceMap.set(service.UUID, service);
     return service.UUID;
   }
@@ -201,6 +204,23 @@ export class Service {
       this.datastore.delete(ACTION_NS, request.actionID);
     }
 
+    const internalServiceResponse =
+        await this.handleInternalAction<Data>(action, params, validated);
+
+    if (internalServiceResponse) {
+      return internalServiceResponse;
+    } else if (this.serviceMap.has(action.target)) {
+      return (this.serviceMap.get(action.target) || error())
+                 .handleEvent(this, params) as Promise<ServiceResponse<any>>;
+    } else {
+      return this.createError('Action not Implemented') as
+          ServiceResponse<Data>;
+    }
+  }
+
+  async handleInternalAction<Data extends ServiceResponseData>(
+      action: ActionInfo, params: ClientValue<any>,
+      validated: boolean): Promise<ServiceResponse<Data>|null> {
     if (action.target === InternalServiceAction.CreateSession) {
       const newSessionId = makeUUID();
 
@@ -233,8 +253,7 @@ export class Service {
       return (this.serviceMap.get(action.target) || error())
                  .handleEvent(this, params) as Promise<ServiceResponse<any>>;
     } else {
-      return this.createError('Action not Implemented') as
-          ServiceResponse<Data>;
+      return null;
     }
   }
 
