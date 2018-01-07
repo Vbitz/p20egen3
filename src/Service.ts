@@ -1,21 +1,11 @@
 // tslint:disable:no-any
 
-import * as crypto from 'crypto';
-
-import {Bag} from './common';
+import {Bag, makeUUID} from './common';
 import {Datastore} from './Datastore';
 
 const TOKEN_NS = 'TKN';
 const ACTION_NS = 'ACT';
 const ACTIONSERVICE_NS = 'SVC';
-
-/**
- * Create a random UUID.
- */
-function makeUUID() {
-  const randomId = crypto.randomBytes(8).toString('hex');
-  return randomId;
-}
 
 export type SessionID = string;
 
