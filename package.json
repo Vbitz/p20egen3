@@ -26,6 +26,7 @@
     "pretest": "npm run compile",
     "posttest": "npm run check",
     "test": "jest",
+    "test:interpreter": "npm run compile && node build/src/NodeInterpreter",
     "coverage": "jest --coverage && mv coverage/coverage-final.json coverage/coverage.json && remap-istanbul -i coverage/coverage.json -o coverage/coverage.json && istanbul report lcov text"
   },
   "jest": {
