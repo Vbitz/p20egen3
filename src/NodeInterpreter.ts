@@ -121,6 +121,9 @@ export class NodeInterpreter {
    */
   private shutdownServer() {
     this.threads.clear();
+    // TODO(jscarsbrook): Look for OnShutdown nodes and execute all of them
+    // first. If shutdownServer is called again then clear all those threads as
+    // well.
   }
 
   private stepThread(thread: Thread): boolean {
